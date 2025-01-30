@@ -1,9 +1,9 @@
 <template>
 
   <div class="flex justify-center items-center h-[93vh] w-full">
-    <div class="card border shadow-xl rounded-lg w-1/2 h-1/2">
-      <div class="card-body">
-      <h2 class="card-title">Login</h2>
+    <div class="card border shadow-xl rounded-lg w-1/2 h-1/2 flex justify-center items-center">
+      <div class="card-body w-1/2 flex flex-col gap-6 items-center justify-center">
+      <h2 class="card-title self-start ml-14">Login</h2>
       <form @submit.prevent="handleLogin">
         <div class="form-control">
           <label class="label">
@@ -45,24 +45,23 @@
 
   import { ref } from 'vue';
   import axios from '@/utils/axios';
-  import { useCookies } from 'vue3-cookies';
   import { useAuthStore } from "@stores/authStore"
   import router from '@/router/index'
 
-  const { cookies } = useCookies();
 
   const email = ref('');
   const password = ref('');
   const loading = ref(false);
   const error = ref('');
   const authStore = useAuthStore()
+  var response: any;
 
   const handleLogin = async () => {
     try {
       loading.value = true;
       error.value = '';
       
-      const response = await axios.post('/api/login', {
+      response = await axios.post('/api/login', {
         email: email.value,
         password: password.value
       });
@@ -71,12 +70,9 @@
       if (response.data.success == "success") {
         authStore.login(response.data.token);
         router.push({ name: 'dashboard' });
-        // RELOADD
-        this.$forceUpdate();
-
       }
     } catch (err) {
-      error.value = err.response?.data?.message || 'Login failed';
+      error.value = response?.data?.message ?? 'Login failed';
       setTimeout(() => {
         error.value = '';
       }, 3000);

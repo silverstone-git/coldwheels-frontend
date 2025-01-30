@@ -1,8 +1,8 @@
 <template>
   <div class="flex justify-center items-center h-[93vh] w-full">
-    <div class="card border shadow-xl rounded-lg w-1/2 h-1/2">
-      <div class="card-body">
-      <h2 class="card-title">Create Account</h2>
+    <div class="card flex items-center border shadow-xl rounded-lg w-1/2 h-1/2">
+      <div class="card-body flex flex-col gap-6 justify-center items-center w-1/2">
+      <h2 class="card-title self-start ml-14">Create Account</h2>
       <form @submit.prevent="handleSignup">
         <div class="form-control">
           <label class="label">
@@ -45,6 +45,7 @@
 
   import { ref } from 'vue';
   import axios from '@/utils/axios';
+  import router from '@/router/index'
 
   const email = ref('');
   const password = ref('');
@@ -53,12 +54,13 @@
   const success = ref('');
 
   const handleSignup = async () => {
+    var response: any;
     try {
       loading.value = true;
       error.value = '';
       success.value = '';
       
-      const response = await axios.post('/api/signup', {
+      response = await axios.post('/api/signup', {
         email: email.value,
         password: password.value
       });
@@ -73,10 +75,9 @@
         setTimeout(() => {
           router.push({ name: 'login' });
         }, 2000);
-        this.$forceUpdate();
       }
     } catch (err) {
-      error.value = err.response?.data?.message || 'Signup failed';
+      error.value = response?.data?.message || 'Signup failed';
       setTimeout(() => error.value = '', 3000);
     } finally {
       loading.value = false;
