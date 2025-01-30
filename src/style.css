@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark, luxury, cyberpunk;
+}
+
+.text-pink-yellow {
+  background: linear-gradient(to right, #ff69b4 0%, rgba(255, 105, 180, 0.5) 50%, #4b3061 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
