@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', {
       const { cookies } = useCookies();
       this.loggedIn = !!cookies.get('auth_token');
     },
-    login(token) {
+    login(token: any) {
       const { cookies } = useCookies();
       cookies.set('auth_token', token, '7d');
       this.loggedIn = true;

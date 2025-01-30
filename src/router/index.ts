@@ -37,8 +37,9 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
   
+  console.log("coming from : ", from)
   //initialize auth state
-  if (!authStore.initialized) {
+  if (!authStore.loggedIn) {
     authStore.initialize();
   }
 

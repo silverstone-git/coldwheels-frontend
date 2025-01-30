@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useCookies } from 'vue3-cookies';
+import { useAuthStore } from '@/stores/authStore';
 
 // Create an Axios instance
 const axiosInstance = axios.create({
