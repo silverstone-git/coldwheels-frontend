@@ -21,7 +21,9 @@ authStore.initialize();
 
 <template>
   <Navbar></Navbar>
-  <router-view />
+  <Suspense>
+    <router-view />
+  </Suspense>
 </template>
 
 
