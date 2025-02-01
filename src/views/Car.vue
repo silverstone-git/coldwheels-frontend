@@ -7,7 +7,7 @@
         <div v-for="(imageURL, index) in car.ImageURLs" :id="`image-div-${index}-${car.ID}`" :key="index" class="carousel-item py-4 relative w-full">
         <img
           :src="imageURL"
-          class="w-full h-full bg-cover bg-center" 
+          class="w-full h-full bg-cover bg-center rounded-lg" 
         />
         <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
             <a :href="`#image-div-${cycle(index, -1, car.ImageURLs.length)}-${car.ID}`" class="btn btn-circle">❮</a>
