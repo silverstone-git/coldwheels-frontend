@@ -4,7 +4,7 @@
     <!--  IMAGE -->
     <div class="h-[40vh] w-full relative overflow-hidden">
       <div class="absolute h-full w-full flex justify-center items-center">
-        <CarCarousel :image-urls="ImageURLs" :car-id="ID" />
+        <CarCarousel :image-urls="ImageURLs" :car-id="Number(ID)" />
       </div>
     </div>
 
@@ -45,7 +45,7 @@
       </div>
 
       <!--  Description -->
-      <div class="pt-12">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quidem molestiae placeat mollitia sapiente quis, est accusamus error? Commodi id nemo amet blanditiis error? Doloremque saepe eaque obcaecati suscipit. Vero, est.</div>
+      <div class="pt-12">{{ route.query.Description }}</div>
 
     </div>
 

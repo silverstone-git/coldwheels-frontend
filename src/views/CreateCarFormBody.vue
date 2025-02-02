@@ -2,32 +2,38 @@
   <div class="max-w-2xl mx-auto rounded-xl p-4">
     <h2 class="text-2xl font-bold mb-4">Add Car</h2>
     <form @submit.prevent="handleSubmit" class="space-y-4">
-      <!-- Make -->
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text">Make</span>
-        </label>
-        <input
-          v-model="form.Make"
-          type="text"
-          placeholder="Enter car make"
-          class="input input-bordered w-full"
-          required
-        />
-      </div>
 
-      <!-- Model Name -->
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text">Model Name</span>
-        </label>
-        <input
-          v-model="form.ModelName"
-          type="text"
-          placeholder="Enter model name"
-          class="input input-bordered w-full"
-          required
-        />
+      <div class="flex gap-4 justify-evenly">
+        <!-- Make -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Make</span>
+          </label>
+          <input
+            v-model="form.Make"
+            :maxlength="100"
+            type="text"
+            placeholder="Enter car make"
+            class="input input-bordered w-full"
+            required
+          />
+        </div>
+
+        <!-- Model Name -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Model Name</span>
+          </label>
+          <input
+            v-model="form.ModelName"
+            :maxlength="100"
+            type="text"
+            placeholder="Enter model name"
+            class="input input-bordered w-full"
+            required
+          />
+        </div>
+
       </div>
 
       <!-- Year -->
@@ -46,45 +52,46 @@
         />
       </div>
 
-      <!-- Engine Size -->
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text">Engine Size (L)</span>
-        </label>
-        <input
-          v-model="form.EngineSize"
-          type="number"
-          placeholder="Enter engine size"
-          class="input input-bordered w-full"
-          step="0.1"
-          min="0"
-          required
-        />
-      </div>
+      <div class="flex gap-4 justify-evenly">
 
-      <!-- Fuel Type -->
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text">Fuel Type</span>
-        </label>
-        <select
-          v-model="form.FuelType"
-          class="select select-bordered w-full"
-          required
-        >
-          <option value="" disabled>Select fuel type</option>
-          <option value="Petrol">Petrol</option>
-          <option value="Diesel">Diesel</option>
-          <option value="Electric">Electric</option>
-          <option value="Hybrid">Hybrid</option>
-        </select>
+        <!-- Engine Size -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Engine Size (L)</span>
+          </label>
+          <input
+            v-model="form.EngineSize"
+            type="number"
+            placeholder="Enter engine size"
+            class="input input-bordered w-full"
+            step="0.1"
+            min="0"
+            max="10000"
+            required
+          />
+        </div>
+
+        <!-- Fuel Type -->
+        <div class="form-control">
+          <label class="label">
+            <span class="label-text">Fuel Type</span>
+          </label>
+          <select
+            v-model="form.FuelType"
+            class="select select-bordered w-full"
+            required
+          >
+            <option value="" disabled>Select fuel type</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Diesel">Diesel</option>
+            <option value="Electric">Electric</option>
+            <option value="Hybrid">Hybrid</option>
+          </select>
+        </div>
       </div>
 
       <!-- Transmission -->
       <div class="form-control">
-        <label class="label">
-          <span class="label-text">Transmission</span>
-        </label>
         <select
           v-model="form.Transmission"
           class="select select-bordered w-full"
@@ -95,6 +102,22 @@
           <option value="Automatic">Automatic</option>
         </select>
       </div>
+
+      <!-- Description -->
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Description</span>
+        </label>
+        <textarea
+          v-model="form.Description"
+          type="text"
+          :maxlength="20000"
+          placeholder="Write about the car"
+          class="textarea block w-full"
+          required
+        />
+      </div>
+
 
       <!-- Drag and Drop Image Upload -->
       <div class="form-control">
@@ -136,7 +159,6 @@
           accept="image/*"
           multiple
         />
-        <p v-if="error" class="text-error mt-2">{{ error }}</p>
       </div>
 
       <!-- Submit Button -->
@@ -167,12 +189,12 @@ const form = ref({
   EngineSize: null,
   FuelType: '',
   Transmission: '',
+  Description: '',
   images: initImages,
 });
 const toastStore = useToastStore();
 
 const isDragging = ref(false);
-const error = ref('');
 const fileInput = ref<HTMLInputElement>();
 
 const dragOver = () => {
@@ -202,14 +224,13 @@ const handleFiles = async (files: FileList) => {
   if (files.length > MAX_FILES_LIMIT) {
     return null
   }
-  error.value = '';
   for (const file of files) {
     if (!file.type.startsWith('image/')) {
-      error.value = 'Only image files are allowed.';
+      toastStore.kaching('Only image files are allowed.');
       continue;
     }
     if (file.size > 2 * 1024 * 1024) {
-      error.value = 'File size must be less than 2MB.';
+      toastStore.kaching('Only image files are allowed.');
       continue;
     }
     form.value.images.push(file);
@@ -224,7 +245,6 @@ const handleSubmit = async () => {
   if (form.value.images.length > MAX_FILES_LIMIT) {
     return null
   }
-  console.log('Form Data:', form.value);
   const formData = new FormData();
 
   // Append each file to the FormData object
@@ -244,7 +264,7 @@ const handleSubmit = async () => {
       imageURLs = data.urls;
 
       // Handle the response from the server
-      console.log('Uploaded successfully:', imageURLs);
+      toastStore.kaching('Uploaded successfully');
 
     }
 
@@ -255,10 +275,11 @@ const handleSubmit = async () => {
        "engineSize": form.value.EngineSize,
        "fuelType": form.value.FuelType,
        "transmission": form.value.Transmission,
+       "description": form.value.Description,
        "imageURLs": imageURLs
      });
 
-    console.log("car uploaded: ", carUploadResponse);
+    toastStore.kaching("Car uploaded!");
     if(carUploadResponse.status == 201) {
       toastStore.kaching("Car added to dashboard")
       if(props.closeForm != undefined) {
@@ -268,8 +289,8 @@ const handleSubmit = async () => {
 
 
   } catch (error) {
-        // Handle any errors
-    console.error('Error uploading images:', error);
+    // Handle any errors
+    toastStore.kaching('Error uploading images:')
   }
 
   // Add your submission logic here (e.g., API call)

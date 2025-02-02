@@ -1,9 +1,9 @@
 <template>
-  <div class="carousel w-full">
-      <div v-for="(imageUrl, index) in imageUrls" :id="`image-div-${index}-${carId}`" :key="index" class="carousel-item relative flex items-center overflow-hidden h-full w-full rounded-lg">
+  <div class="carousel h-full w-full">
+      <div v-for="(imageUrl, index) in imageUrls" :id="`image-div-${index}-${carId}`" :key="index" class="carousel-item relative h-full w-full overflow-hidden rounded-lg">
         <img
           :src="imageUrl"
-          class="w-full h-full" 
+          class="object-cover h-full w-full absolute inset-0" 
         />
         <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
             <a @click.stop="() => {}" :href="`#image-div-${cycle(index, -1, imageUrls.length)}-${carId}`" class="btn btn-circle">❮</a>
@@ -17,7 +17,7 @@
   
   interface CarCarouselProps {
     imageUrls: string[];
-    carId: string;
+    carId: number;
     
   }
 

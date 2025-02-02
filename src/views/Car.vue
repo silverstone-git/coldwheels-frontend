@@ -1,9 +1,8 @@
 <template>
   <div @click="openCarPage(car)" class="p-4 w-full h-full cursor-pointer">
     <div class="h-full w-full card border rounded-lg p-4">
-      {{ car.Make }} {{ car.ModelName }} {{ car.EngineSize }}
-      {{ car.ID }}
-      <CarCarousel />
+      <div class="h-16 text-lg flex items-start">{{ car.Make }} {{ car.ModelName }} {{ car.Year }}</div> 
+      <CarCarousel :image-urls="car.ImageURLs" :car-id="car.ID" />
     </div>
   </div>
 </template>
@@ -12,7 +11,8 @@
 <script setup lang="ts">
   //
   import type { CarType } from '@/lib/model';
-import router from '@/router';
+  import router from '@/router';
+  import CarCarousel from '@views/CarCarousel.vue';
 
   interface Props {
     car: CarType,

@@ -6,6 +6,7 @@ export interface CarType {
   EngineSize: number;
   FuelType: string;
   Transmission: string;
+  description: string;
   OwnerID: string;
   ImageURLs: string[];
 
