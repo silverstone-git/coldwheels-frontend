@@ -1,4 +1,3 @@
-// stores/authStore.js
 import { defineStore } from 'pinia';
 import { useCookies } from 'vue3-cookies';
 

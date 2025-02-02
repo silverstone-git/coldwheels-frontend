@@ -23,10 +23,10 @@
       +
     </div>
     <dialog id="create_car_dialog" class="modal">
-      <div class="modal-box">
-        <CreateCarFormBody />
+      <div class="modal-box outline">
+        <CreateCarFormBody :closeForm="createCloseForm" />
       </div>
-      <form method="dialog" class="modal-backdrop">
+      <form ref="createCloseForm" method="dialog" class="modal-backdrop">
         <button>close</button>
       </form>
     </dialog>
@@ -38,13 +38,14 @@
 
   import axiosInstance from '@/utils/axios';
   import type { CarType } from '@/lib/model'
-  import Car from '@/views/Car.vue';
+  import Car from '@views/Car.vue';
   import { ref, onMounted, watch, computed } from 'vue';
-  import CreateCarFormBody from '@/views/CreateCarFormBody.vue';
+  import CreateCarFormBody from '@views/CreateCarFormBody.vue';
   import { PAGE_SIZE } from '@/lib/constants';
 
   const cars = ref<CarType[]>([]);
   const page = ref(1);
+  const createCloseForm = ref<HTMLFormElement>();
 
   // @ts-ignore
   const prevDisabled = computed(() => {

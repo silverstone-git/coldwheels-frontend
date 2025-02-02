@@ -151,6 +151,13 @@
 import { ref } from 'vue';
 import axiosInstance from '@/utils/axios';
 import { MAX_FILES_LIMIT } from '@/lib/constants';
+import { useToastStore } from '@stores/toastStore';
+
+interface CreateCarFormProps {
+  'closeForm': HTMLFormElement | undefined
+}
+
+const props = defineProps<CreateCarFormProps>()
 
 const initImages: File[] = [];
 const form = ref({
@@ -162,6 +169,7 @@ const form = ref({
   Transmission: '',
   images: initImages,
 });
+const toastStore = useToastStore();
 
 const isDragging = ref(false);
 const error = ref('');
@@ -251,6 +259,13 @@ const handleSubmit = async () => {
      });
 
     console.log("car uploaded: ", carUploadResponse);
+    if(carUploadResponse.status == 201) {
+      toastStore.kaching("Car added to dashboard")
+      if(props.closeForm != undefined) {
+        props.closeForm.submit();
+      }
+    }
+
 
   } catch (error) {
         // Handle any errors
@@ -261,6 +276,3 @@ const handleSubmit = async () => {
 };
 </script>
 
-<style scoped>
-/* Add custom styles if needed */
-</style>
