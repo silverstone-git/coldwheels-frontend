@@ -225,19 +225,35 @@ const handleSubmit = async () => {
   });
 
   try {
-        // Send a POST request to your Go server
-        const response = await axiosInstance.post('/api/cars/upload-images', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+    var imageURLs = []
+    if(form.value.images.length > 0) {
+      // Send a POST request to your Go server
+      const { data } = await axiosInstance.post('/api/cars/upload-images', formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },
+      });
+      imageURLs = data.urls;
 
-        // Handle the response from the server
-        console.log('Uploaded successfully:', response.data);
-    } catch (error) {
-        // Handle any errors
-        console.error('Error uploading images:', error);
+      // Handle the response from the server
+      console.log('Uploaded successfully:', imageURLs);
+
     }
+
+    const carUploadResponse = await axiosInstance.post('/api/cars', {
+       "make": form.value.Make,
+       "modelName": form.value.ModelName,
+       "year": form.value.Year,
+       "engineSize": form.value.EngineSize,
+       "fuelType": form.value.FuelType,
+       "transmission": form.value.Transmission,
+       "imageURLs": imageURLs
+     });
+
+  } catch (error) {
+        // Handle any errors
+    console.error('Error uploading images:', error);
+  }
 
   // Add your submission logic here (e.g., API call)
 };
