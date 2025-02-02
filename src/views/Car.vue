@@ -29,6 +29,8 @@
   }
 
   const props = defineProps<Props>()
+  console.log("props: ", props);
+
   const cycle = (index: number, incrementor: number, size: number) => {
     if((index + incrementor) > size - 1) {
       return 0;

@@ -45,9 +45,12 @@
 
   const cars = ref<CarType[]>([]);
   const page = ref(1);
+
+  // @ts-ignore
   const prevDisabled = computed(() => {
     return page.value == 1
   });
+
 
   const loadPage = async (pageNo: number) => {
     return (await axiosInstance.get(`/api/cars/${pageNo}?pageSize=${PAGE_SIZE}`)).data
@@ -59,7 +62,7 @@
 
   watch(page, async (newPage, oldPage) => {
     cars.value = await loadPage(page.value);
-    console.log("changed: ", newPage)
+    console.log("changed: ", newPage, "old: ", oldPage)
   })
 
 
