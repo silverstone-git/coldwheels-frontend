@@ -250,6 +250,8 @@ const handleSubmit = async () => {
        "imageURLs": imageURLs
      });
 
+    console.log("car uploaded: ", carUploadResponse);
+
   } catch (error) {
         // Handle any errors
     console.error('Error uploading images:', error);
